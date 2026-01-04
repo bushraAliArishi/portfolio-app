@@ -1,45 +1,68 @@
 {
   "expo": {
-    "name": "StickerSmash",
-    "slug": "StickerSmash",
+    "name": "Bushra Test",
+    "slug": "BushraTest",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "stickersmash",
+    "icon": "./assets/images/ChatGPT Image Jun 1, 2025, 12_11_43 PM_20250603_142031.png",
+    "scheme": "BushraTest",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": true
+
+    "backgroundColor": "#1E293B",
+
+    "splash": {
+      "image": "./assets/images/GoldBlur.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1E293B"
     },
+
+    "ios": {
+      "supportsTablet": true,
+      "backgroundColor": "#1E293B"
+    },
+
     "android": {
+      "backgroundColor": "#1E293B",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "backgroundColor": "#1E293B",
+        "foregroundImage": "./assets/images/ChatGPT Image Jun 1, 2025, 12_11_43 PM_20250603_142031.png"
       },
+      "package": "com.yourapp.bushratest",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
+
+    "androidNavigationBar": {
+      "backgroundColor": "#1E293B",
+      "barStyle": "light-content"
+    },
+
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/ChatGPT Image Jun 1, 2025, 12_11_43 PM_20250603_142031.png",
+      "backgroundColor": "#1E293B"
     },
+
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
+          "image": "./assets/images/GoldBlur.png",
+          "imageWidth": 1000,
+          "resizeMode": "cover",
+          "backgroundColor": "#1E293B",
           "dark": {
-            "backgroundColor": "#000000"
+            "image": "./assets/images/GoldBlur.png",
+            "backgroundColor": "#1E293B"
           }
         }
-      ]
+      ],
+      "expo-localization",
+      "expo-font"
     ],
+
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
