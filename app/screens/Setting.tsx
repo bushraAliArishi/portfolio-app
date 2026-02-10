@@ -6,9 +6,8 @@ import { useTheme } from '@/theme/ThemeContext';
 import { Typography } from '@/theme/typography';
 import { Feather } from '@expo/vector-icons';
 import { ThemeOptionButton } from '../components/ui/ThemeOptionButton';
-import SystemIcon from '@/assets/SVG/SystemIcon';
-import MoonIcon from '@/assets/SVG/DarkIcon';
-import SunIcon from '@/assets/SVG/LightIcon';
+
+import {LightIcon,SystemIcon,DarkIcon} from '@/assets/SVG/Icons';
 
 // 1. Move styles to the top to fix "Property icon does not exist"
 const styles = StyleSheet.create({
@@ -74,14 +73,14 @@ const Settings = () => {
             <View style={styles.themeModeContainer}>
               <ThemeOptionButton 
                 label="Light" 
-                icon={(props: any) => <SunIcon {...props} style={styles.icon} />}
+                icon={(props: any) => <LightIcon {...props} style={styles.icon} />}
                 isActive={themeMode === 'light'}
                 onPress={() => setThemeMode('light')}
                 theme={theme}
               />
               <ThemeOptionButton 
                 label="Dark" 
-                icon={(props: any) => <MoonIcon {...props} style={styles.icon} />}
+                icon={(props: any) => <DarkIcon {...props} style={styles.icon} />}
                 isActive={themeMode === 'dark'}
                 onPress={() => setThemeMode('dark')}
                 theme={theme}

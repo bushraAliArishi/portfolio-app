@@ -1,4 +1,4 @@
-import BushraLogo from '@/assets/SVG/BushraLogo';
+import {BushraLogo} from '@/assets/SVG/Icons';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import MainLayout from '../components/layouts/MainLayout';

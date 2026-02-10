@@ -1,4 +1,4 @@
-import GoldBluredBackground from '@/assets/SVG/GoldBluredBackground';
+import {GoldBluredBackground} from '@/assets/SVG/Icons';
 import React from 'react';
 import { Dimensions, Image, View } from 'react-native';
 import { s, vs } from 'react-native-size-matters';

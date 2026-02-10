@@ -1,22 +1,24 @@
 import React, { useState, useMemo } from 'react';
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity, StatusBar } from 'react-native';
-import { useAppTheme } from '@/app/hook/useAppTheme';
+import { useTheme } from '../../../theme'; // Updated to use your context hook
 import { Ionicons } from '@expo/vector-icons';
-import ExperienceCard from '@/app/components/ui/ExperienceCard';
-import ExperienceHeader from '@/app/components/headers/ExperienceHeader';
-import MainLayout from '@/app/components/layouts/MainLayout';
-import { experiences } from '@/app/data/Experience';
-import { Typography } from '@/theme/typography';
-import { Spacing } from '@/theme/spacing';
+import { ContentCard } from '../../components/ui/ContentCard'; // Using the new reusable card
+import ExperienceHeader from '../../components/headers/ExperienceHeader';
+import MainLayout from '../../components/layouts/MainLayout';
+import { experiences } from '../../data/Experience'; // Updated data source
+import { projects } from '../../data/projects'; // For the projects stat
+import { Typography } from '../../../theme/typography';
+import { Spacing } from '../../../theme/spacing';
 
 export default function ExperiencePage() {
-  const { colors, isDarkMode } = useAppTheme();
+  const { theme, isDarkMode } = useTheme();
+  const { colors } = theme;
   
-  const [variant, setVariant] = useState<'default' | 'compact'>('default');
   const [showSkills, setShowSkills] = useState(true);
   const [filter, setFilter] = useState<string>('all');
 
- const stats = useMemo(() => {
+  // Logic to calculate years from your CV data
+  const stats = useMemo(() => {
     const monthMap: { [key: string]: number } = {
       jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
       jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11
@@ -26,7 +28,6 @@ export default function ExperiencePage() {
       if (!str) return null;
       if (str.toLowerCase().includes('present')) return new Date();
       
-      // Split "Jan 2021" into ["Jan", "2021"]
       const parts = str.trim().split(/\s+/); 
       if (parts.length < 2) return null;
 
@@ -39,44 +40,34 @@ export default function ExperiencePage() {
     };
 
     const calculateMonths = (period: string) => {
-      // 1. Split by any kind of dash (standard, en-dash, em-dash)
       const parts = period.split(/[–—-]/); 
       if (parts.length < 2) return 0;
-
       const startDate = parseDateStr(parts[0]);
       const endDate = parseDateStr(parts[1]);
-
       if (!startDate || !endDate) return 0;
-
-      const yearsDiff = endDate.getFullYear() - startDate.getFullYear();
-      const monthsDiff = endDate.getMonth() - startDate.getMonth();
-      
-      return (yearsDiff * 12) + monthsDiff;
+      return (endDate.getFullYear() - startDate.getFullYear()) * 12 + (endDate.getMonth() - startDate.getMonth());
     };
 
     const totalMonths = experiences.reduce((acc, exp) => acc + calculateMonths(exp.period), 0);
     
-    // Convert to years (e.g., 38 months -> 3 years)
-    const totalYears = Math.floor(totalMonths / 12);
-
     return {
       positions: experiences.length,
-      years: totalYears > 0 ? totalYears : 0,
-      projects: 12, // Static or calculated from other data
+      years: Math.floor(totalMonths / 12) || 3, // Fallback to 3+ based on CV Summary
+      projects: projects.length, 
     };
   }, [experiences]);
+
+  const allSkills = useMemo(() => {
+    const skills = new Set<string>();
+    experiences.forEach(exp => exp.tools?.forEach(t => skills.add(t.name)));
+    return Array.from(skills);
+  }, []);
 
   const filteredExperiences = useMemo(() => {
     return filter === 'all' 
       ? experiences 
-      : experiences.filter(exp => exp.skills?.some(s => s.toLowerCase().includes(filter.toLowerCase())));
+      : experiences.filter(exp => exp.tools?.some(t => t.name === filter));
   }, [filter]);
-
-  const allSkills = useMemo(() => {
-    const skills = new Set<string>();
-    experiences.forEach(exp => exp.skills?.forEach(s => skills.add(s)));
-    return Array.from(skills);
-  }, []);
 
   return (
     <MainLayout paddingOff={true}>
@@ -107,7 +98,7 @@ export default function ExperiencePage() {
           </View>
         </View>
 
-        {/* Filters */}
+        {/* Filter Chips */}
         <View style={styles.filtersContainer}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filtersScroll}>
             <TouchableOpacity
@@ -128,47 +119,46 @@ export default function ExperiencePage() {
           </ScrollView>
         </View>
 
-        {/* View Controls (Only Detailed/Skills toggles) */}
+        {/* Toggle Skills View */}
         <View style={[styles.controlsSection, { backgroundColor: colors.cardBackground }]}>
-          <View style={styles.controlsRow}>
-            <TouchableOpacity 
-              onPress={() => setVariant(v => v === 'default' ? 'compact' : 'default')} 
-              style={[styles.toggleButton, { borderColor: colors.borderSubtle }]}
-            >
-              <Ionicons name={variant === 'default' ? 'expand-outline' : 'contract-outline'} size={18} color={colors.textBody} />
-              <Text style={[styles.toggleText, { color: colors.textBody }]}>{variant === 'default' ? 'Detailed' : 'Compact'}</Text>
-            </TouchableOpacity>
-
             <TouchableOpacity 
               onPress={() => setShowSkills(!showSkills)} 
               style={[styles.toggleButton, { backgroundColor: showSkills ? colors.brandSage : 'transparent', borderColor: colors.borderSubtle }]}
             >
               <Ionicons name="code-slash-outline" size={18} color={showSkills ? colors.textInverse : colors.textBody} />
-              <Text style={[styles.toggleText, { color: showSkills ? colors.textInverse : colors.textBody }]}>Skills</Text>
+              <Text style={[styles.toggleText, { color: showSkills ? colors.textInverse : colors.textBody }]}>
+                {showSkills ? "Hide Tool Icons" : "Show Tool Icons"}
+              </Text>
             </TouchableOpacity>
-          </View>
         </View>
 
-        {/* List of Experiences */}
+        {/* Experience List - Mapping to the new ContentCard */}
         <View style={styles.columnLayout}>
           {filteredExperiences.map((exp) => (
-            <ExperienceCard key={exp.id} experience={exp} layout="column" variant={variant} showSkills={showSkills} />
+            <ContentCard 
+              key={exp.id}
+              title={exp.title}
+              subtitle={exp.company}
+              imageUri={exp.companyLogo}
+              link={exp.companyUrl}
+              dateRange={exp.period}
+              description={exp.description}
+              tools={showSkills ? exp.tools : []} // Conditionally show tool logos
+            />
           ))}
         </View>
 
-        {/* Skills Summary */}
-        {showSkills && (
-          <View style={[styles.skillsSummary, { backgroundColor: colors.sectionBackground }]}>
-            <Text style={[styles.summaryTitle, { color: colors.textHeading }]}>Skills Summary</Text>
-            <View style={styles.skillsGrid}>
-              {allSkills.map((skill, index) => (
-                <View key={index} style={[styles.skillSummaryTag, { backgroundColor: colors.tagTechBg }]}>
-                  <Text style={[styles.skillSummaryText, { color: colors.tagTechText }]}>{skill}</Text>
-                </View>
-              ))}
-            </View>
+        {/* Footer Skills Summary */}
+        <View style={[styles.skillsSummary, { backgroundColor: colors.sectionBackground }]}>
+          <Text style={[styles.summaryTitle, { color: colors.textHeading }]}>Technical Expertise</Text>
+          <View style={styles.skillsGrid}>
+            {allSkills.map((skill, index) => (
+              <View key={index} style={[styles.skillSummaryTag, { backgroundColor: colors.tagTechBg }]}>
+                <Text style={[styles.skillSummaryText, { color: colors.tagTechText }]}>{skill}</Text>
+              </View>
+            ))}
           </View>
-        )}
+        </View>
       </ScrollView>
     </MainLayout>
   );
@@ -186,10 +176,9 @@ const styles = StyleSheet.create({
   filterChip: { paddingHorizontal: Spacing.m, paddingVertical: Spacing.xs, borderRadius: Spacing.radius.pill },
   filterText: { fontFamily: Typography.font.bodyMedium, fontSize: Typography.size.label },
   controlsSection: { marginHorizontal: Spacing.m, marginBottom: Spacing.m, padding: Spacing.s, borderRadius: Spacing.radius.m },
-  controlsRow: { flexDirection: 'row', gap: Spacing.s },
-  toggleButton: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: Spacing.s, borderRadius: Spacing.radius.s, borderWidth: 1, gap: Spacing.xs },
+  toggleButton: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: Spacing.s, borderRadius: Spacing.radius.s, borderWidth: 1, gap: Spacing.xs },
   toggleText: { fontFamily: Typography.font.bodyMedium, fontSize: Typography.size.label },
-  columnLayout: { paddingHorizontal: Spacing.m, gap: Spacing.m },
+  columnLayout: { paddingHorizontal: Spacing.m },
   skillsSummary: { padding: Spacing.m, margin: Spacing.m, borderRadius: Spacing.radius.l },
   summaryTitle: { fontFamily: Typography.font.heading, fontSize: Typography.size.cardTitle, marginBottom: Spacing.m },
   skillsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.s },

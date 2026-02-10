@@ -1,50 +1,58 @@
+import { TOOLS, Tool } from './tools';
+
 export interface ExperienceItem {
-  id: string
-  title: string
-  company: string
-  period: string
-  description: string[]
-  current?: boolean
-  skills?: string[]
+  id: string;
+  title: string;
+  company: string;
+  companyLogo?: string;
+  companyUrl?: string;
+  period: string;
+  description: string[];
+  tools: Tool[];
 }
 
 export const experiences: ExperienceItem[] = [
   {
-    id: '1',
+    id: 'exp-1',
     title: 'Software Developer',
     company: 'Trell',
-    period: 'Aug 2025 – Oct 2025',
+    companyLogo:'https://www.trell.sa/build/assets/logo-DTWrORI7.png',
+    companyUrl: 'https://trell.sa',
+    period: 'Aug 2025 - Oct 2025',
     description: [
-      'Conducted comprehensive quality control testing for the company platform, identifying and documenting issues in Jira',
-      'Resolved frontend issues independently by assigning and completing simple tickets',
-      'Developed and maintained frontend components using React and JavaScript'
+      'Conducted comprehensive quality control testing for the company platform, identifying and documenting issues in Jira[cite: 10].',
+      'Resolved frontend issues independently by assigning and completing simple tickets[cite: 11].',
+      'Developed and maintained frontend components using React and JavaScript[cite: 11].'
     ],
-    skills: ['React', 'JavaScript', 'Jira', 'Quality Assurance']
+    tools: [TOOLS.React, TOOLS.JavaScript, TOOLS.Jira]
   },
   {
-    id: '2',
+    id: 'exp-2',
     title: 'Senior Developer',
     company: 'i-be group',
-    period: 'Jan 2024 – Jul 2025',
+    companyLogo:'https://d1cf06514ccdd585e96f2e1d9fbe2243.cdn.bubble.io/f1727947117491x264249176901952400/Group%205557.svg',
+    companyUrl: 'https://ibehub.com',
+    period: 'Jan 2024 - Jul 2025',
     description: [
-      'Led end-to-end development of i-be Hub, an internal operations management system, reducing system response time by 30% through backend optimization',
-      'Designed and implemented over 12 specialized dashboards for various departments using Bubble.io and Google Data Studio',
-      'Automated internal processes, saving over 20 hours of manual work per month through event-triggered and scheduled workflows',
-      'Managed development of multiple digital products including Bani (equipment rental marketplace) and i-be X (AI tools platform)',
-      'Served as Project Manager and QC Lead for the INFNT project, overseeing development lifecycle and stakeholder communication'
+      'Led end-to-end development of i-be Hub, reducing system response time by 30% through backend optimization[cite: 13].',
+      'Designed and implemented over 12 specialized dashboards using Bubble.io and Google Data Studio[cite: 14].',
+      'Managed development of multiple digital products including Bani and i-be X[cite: 16].',
+      'Served as Project Manager and QC Lead for the INFNT platform[cite: 17].'
     ],
-    skills: ['Bubble.io', 'Project Management', 'System Optimization', 'Workflow Automation', 'API Integration']
+    tools: [TOOLS.Bubble, TOOLS.LookerStudio, TOOLS.JavaScript, TOOLS.Jira]
   },
   {
-    id: '3',
+    id: 'exp-3',
     title: 'Technical Specialist',
-    company: 'i-be',
-    period: 'Aug 2022 – Jan 2024',
+    company: 'https://ibehub.com',
+    companyLogo:'https://d1cf06514ccdd585e96f2e1d9fbe2243.cdn.bubble.io/f1727947117491x264249176901952400/Group%205557.svg',
+    companyUrl: 'https://i-be.io',
+    period: 'Aug 2022 - Jan 2024',
     description: [
-      'Gathered and analyzed client requirements, transforming them into detailed technical specifications and project plans',
-      'Managed IT administration tasks including Google Workspace, domain management, and software subscriptions',
-      'Trained and mentored new developers on Bubble.io development, improving team onboarding and productivity'
+      'Gathered and analyzed client requirements, transforming them into detailed technical specifications[cite: 19].',
+      'Managed IT administration tasks including Google Workspace and domain management[cite: 20].',
+      'Trained and mentored new developers on Bubble.io development[cite: 21].'
     ],
-    skills: ['Requirements Analysis', 'Technical Documentation', 'Team Mentoring', 'IT Administration']
+    tools: [TOOLS.Bubble, TOOLS.Figma, TOOLS.GoogleWorkspace]
   }
-]
+];

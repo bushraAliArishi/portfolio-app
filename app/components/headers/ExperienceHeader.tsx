@@ -1,6 +1,6 @@
 // app/components/headers/ExperienceHeader.tsx
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { useRouter } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
 import { useTheme } from '@/theme/ThemeContext'

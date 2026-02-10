@@ -1,4 +1,4 @@
-import { StyleSheet, View , Text} from 'react-native'
+import { StyleSheet, View} from 'react-native'
 import React from 'react'
 import { s, vs } from 'react-native-size-matters'
 import UserAvatar from '../ui/Avatar'

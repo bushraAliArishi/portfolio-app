@@ -1,8 +1,5 @@
-import ExperieanceIcone from '@/assets/SVG/ExperieanceIcone';
-import HomeIcon from '@/assets/SVG/HomeIcon';
-import ProjectIcon from '@/assets/SVG/ProjectIcon';
-import SettingIcone from '@/assets/SVG/SettingIcone';
-import SkillIcon from '@/assets/SVG/SkillIcon';
+
+import {SkillIcon, SettingIcone,ProjectIcon,HomeIcon,ExperieanceIcone} from '@/assets/SVG/Icons';
 import { useTheme } from '@/theme/ThemeContext';
 import { Typography } from '@/theme/typography';
 import { usePathname, useRouter } from 'expo-router';

@@ -3,7 +3,7 @@ import React from 'react';
 import { Dimensions, Text, View, StyleSheet, ViewStyle } from 'react-native';
 import { s, vs } from 'react-native-size-matters';
 import { useTheme } from '@/theme/ThemeContext';
-import BushraLogo from '@/assets/SVG/BushraLogo';
+import {BushraLogo} from '@/assets/SVG/Icons';
 
 interface LogoProps {
   size?: 'small' | 'medium' | 'large';
